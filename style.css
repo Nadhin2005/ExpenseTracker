@@ -475,15 +475,49 @@ canvas {
 }
 
 /* RESPONSIVE */
-@media(max-width: 1000px) {
-    .sidebar {
-        position: static;
+@media(max-width: 768px) {
+
+    body {
+        overflow-x: hidden;
+    }
+
+    .app-container {
+        display: block;
         width: 100%;
+    }
+
+    .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+        padding: 18px;
+        box-shadow: none;
+    }
+
+    .sidebar h2 {
+        font-size: 22px;
+        margin-bottom: 18px;
+        text-align: center;
+    }
+
+    .sidebar button {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 10px;
+        text-align: center;
+        font-size: 14px;
     }
 
     .main {
         margin-left: 0;
-        padding: 20px;
+        width: 100%;
+        padding: 18px;
+    }
+
+    h1 {
+        font-size: 26px;
+        text-align: center;
+        margin-bottom: 20px;
     }
 
     .cards,
@@ -492,11 +526,59 @@ canvas {
     .settings-grid,
     .form-grid,
     .filter-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr !important;
+        width: 100%;
+        gap: 16px;
+    }
+
+    .card {
+        width: 100%;
+        min-height: 115px;
+        padding: 22px;
+        border-radius: 22px;
+    }
+
+    .card h2 {
+        font-size: 30px;
+    }
+
+    .mini-card,
+    .panel {
+        width: 100%;
+        padding: 22px;
+        border-radius: 22px;
+    }
+
+    canvas {
+        width: 100% !important;
+        max-width: 100%;
+        max-height: 280px;
     }
 
     li {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr !important;
+        gap: 8px;
+        padding: 14px;
+        font-size: 14px;
+    }
+
+    input,
+    select,
+    button {
+        width: 100%;
+        font-size: 14px;
+        padding: 12px;
+    }
+
+    #notifyBox {
+        top: 15px;
+        right: 15px;
+        left: 15px;
+    }
+
+    .notify {
+        width: 100%;
+        text-align: center;
     }
 }
 /* =======================================================
