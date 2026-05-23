@@ -1,8 +1,3 @@
-
-
-
-
-
 * {
     margin: 0;
     padding: 0;
@@ -858,7 +853,8 @@ body::before{
     color: #94a3b8;
 }
 
-@media(max-width: 768px) {
+/* ================= MOBILE APP VIEW ================= */
+@media (max-width: 768px) {
 
     body {
         background: #020617;
@@ -874,25 +870,49 @@ body::before{
         position: relative;
         width: 100%;
         height: auto;
-        padding: 18px;
-        background: rgba(2, 6, 23, 0.95);
+        padding: 20px;
+        background: rgba(2, 6, 23, 0.96);
         box-shadow: none;
     }
 
     .brand {
-        justify-content: flex-start;
-        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 22px;
+    }
+
+    .brand h2 {
+        font-size: 28px;
+        background: linear-gradient(135deg, #60a5fa, #8b5cf6);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .brand p,
+    .logo {
+        display: none;
+    }
+
+    .brand::after {
+        content: "☰";
+        color: white;
+        font-size: 34px;
+        font-weight: bold;
     }
 
     .sidebar button {
         width: 100%;
-        padding: 14px;
-        margin-bottom: 10px;
+        height: 46px;
+        margin-bottom: 9px;
+        padding: 0 18px;
         border-radius: 14px;
-        text-align: left;
-        font-size: 14px;
-        background: rgba(15, 23, 42, 0.9);
+        background: rgba(15, 23, 42, 0.85);
         border: 1px solid #334155;
+        color: white;
+        font-size: 16px;
+        font-weight: 700;
+        text-align: left;
     }
 
     .sidebar button:first-of-type {
@@ -901,20 +921,28 @@ body::before{
     }
 
     .sidebar .danger {
-        text-align: center;
         background: linear-gradient(135deg, #dc2626, #ef4444) !important;
+        text-align: center;
+        margin-top: 8px;
     }
 
     .main {
         margin-left: 0;
         width: 100%;
         padding: 18px;
-        background: #020617;
+        background: rgba(2, 6, 23, 0.95);
+    }
+
+    #dashboard {
+        border: 1px solid #1e293b;
+        border-radius: 18px;
+        padding: 18px;
+        background: rgba(15, 23, 42, 0.55);
     }
 
     h1 {
+        font-size: 25px;
         color: white;
-        font-size: 26px;
         margin-bottom: 18px;
     }
 
@@ -922,27 +950,30 @@ body::before{
     .analytics-grid {
         display: grid;
         grid-template-columns: 1fr 1fr !important;
-        gap: 14px;
+        gap: 16px;
+        margin-bottom: 18px;
     }
 
     .card {
         min-height: 115px;
         padding: 20px;
-        border-radius: 22px;
+        border-radius: 16px;
     }
 
     .card h3 {
-        font-size: 14px;
+        font-size: 15px;
+        margin-bottom: 12px;
     }
 
     .card h2 {
-        font-size: 28px;
+        font-size: 26px;
     }
 
     .mini-card {
         background: #f8fafc;
-        border-radius: 20px;
-        padding: 20px;
+        border-radius: 16px;
+        padding: 18px;
+        min-height: 95px;
     }
 
     .mini-card h3 {
@@ -953,25 +984,30 @@ body::before{
     .mini-card p {
         font-size: 22px;
         color: #020617;
+        font-weight: 800;
     }
 
     .chart-grid,
     .settings-grid,
     .form-grid,
     .filter-grid {
+        display: grid;
         grid-template-columns: 1fr !important;
         gap: 18px;
     }
 
     .panel {
         background: #f8fafc;
-        border-radius: 22px;
+        color: #020617;
+        border-radius: 18px;
         padding: 20px;
+        margin-bottom: 18px;
     }
 
     .panel h2 {
         color: #020617;
         font-size: 22px;
+        margin-bottom: 16px;
     }
 
     canvas {
@@ -983,11 +1019,22 @@ body::before{
     select,
     button {
         width: 100%;
-        font-size: 14px;
+        font-size: 15px;
     }
 
     li {
         grid-template-columns: 1fr !important;
         font-size: 14px;
+    }
+
+    #notifyBox {
+        top: 15px;
+        left: 15px;
+        right: 15px;
+    }
+
+    .notify {
+        width: 100%;
+        text-align: center;
     }
 }
