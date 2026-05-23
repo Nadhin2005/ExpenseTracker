@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AI Smart Finance Management System</title>
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <!-- TECH BACKGROUND -->
+
+<div class="tech-grid"></div>
+
+<div class="tech-circle1"></div>
+
+<div class="tech-circle2"></div>
+
+<div class="tech-particles">
+
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+
+</div>
+
+<div id="notifyBox"></div>
+
+<div class="auth-container" id="authPage">
+    <div class="auth-card">
+        <h1>AI Smart Finance</h1>
+        <p>PG Level Predictive Expense Analytics System</p>
+
+        <input type="text" id="username" placeholder="Username">
+        <input type="password" id="password" placeholder="Password">
+
+        <select id="role">
+            <option value="user">User</option>
+            <option value="admin">Admin</option>
+        </select>
+
+        <button onclick="register()">Register</button>
+        <button onclick="login()">Login</button>
+
+        <p id="authMsg"></p>
+    </div>
+</div>
+
+<div class="app-container" id="appPage">
+
+    <aside class="sidebar">
+        <h2>Finance AI</h2>
+        <button onclick="showSection('dashboard')">Dashboard</button>
+        <button onclick="showSection('transactions')">Transactions</button>
+        <button onclick="showSection('monthDashboard')">Month Dashboard</button>
+        <button onclick="showSection('yearDashboard')">Year Dashboard</button>
+        <button onclick="showSection('aiSection')">AI Prediction</button>
+        <button onclick="showSection('adminPanel')" id="adminBtn">Admin Panel</button>
+        <button onclick="showSection('settings')">Settings</button>
+        <button onclick="toggleDarkMode()">Dark Mode</button>
+        <button class="danger" onclick="logout()">Logout</button>
+    </aside>
+
+    <main class="main">
+
+        <section id="dashboard" class="section active">
+            <h1>Overall Dashboard</h1>
+
+            <div class="cards">
+                <div class="card blue">
+                    <h3>Balance</h3>
+                    <h2>₹<span id="balance">0</span></h2>
+                </div>
+
+                <div class="card green">
+                    <h3>Income</h3>
+                    <h2>₹<span id="income">0</span></h2>
+                </div>
+
+                <div class="card red">
+                    <h3>Expense</h3>
+                    <h2>₹<span id="expense">0</span></h2>
+                </div>
+
+                <div class="card purple">
+                    <h3>Savings Goal</h3>
+                    <h2>₹<span id="goalDisplay">0</span></h2>
+                </div>
+            </div>
+
+            <div class="analytics-grid">
+                <div class="mini-card">
+                    <h3>Highest Expense</h3>
+                    <p>₹<span id="highestExpense">0</span></p>
+                </div>
+
+                <div class="mini-card">
+                    <h3>Average Expense</h3>
+                    <p>₹<span id="averageExpense">0</span></p>
+                </div>
+
+                <div class="mini-card">
+                    <h3>Top Category</h3>
+                    <p id="topCategory">None</p>
+                </div>
+
+                <div class="mini-card">
+                    <h3>Total Transactions</h3>
+                    <p id="totalTransactions">0</p>
+                </div>
+            </div>
+
+            <div class="chart-grid">
+                <div class="panel">
+                    <h2>Income vs Expense</h2>
+                    <canvas id="mainChart"></canvas>
+                </div>
+
+                <div class="panel">
+                    <h2>Category Expense</h2>
+                    <canvas id="categoryChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <section id="transactions" class="section">
+            <h1>Transactions</h1>
+
+            <div class="panel">
+                <h2>Add / Update Transaction</h2>
+
+                <form id="form" class="form-grid">
+                    <input type="text" id="text" placeholder="Description">
+                    <input type="number" id="amount" placeholder="+Income / -Expense">
+
+                    <select id="category">
+                        <option value="">Category</option>
+                        <option value="Salary">Salary</option>
+                        <option value="Food">Food</option>
+                        <option value="Travel">Travel</option>
+                        <option value="Shopping">Shopping</option>
+                        <option value="Bills">Bills</option>
+                        <option value="Education">Education</option>
+                        <option value="Medical">Medical</option>
+                        <option value="Rent">Rent</option>
+                        <option value="EMI">EMI</option>
+                        <option value="Other">Other</option>
+                    </select>
+
+                    <select id="paymentMode">
+                        <option value="">Payment Mode</option>
+                        <option value="Cash">Cash</option>
+                        <option value="UPI">UPI</option>
+                        <option value="Card">Card</option>
+                        <option value="Net Banking">Net Banking</option>
+                    </select>
+
+                    <input type="date" id="date">
+                    <button type="submit" id="submitBtn">Add Transaction</button>
+                </form>
+            </div>
+
+            <div class="panel">
+                <h2>Advanced Filters</h2>
+
+                <div class="filter-grid">
+                    <input type="text" id="search" placeholder="Search">
+                    <select id="filter">
+                        <option value="all">All</option>
+                        <option value="income">Income</option>
+                        <option value="expense">Expense</option>
+                    </select>
+                    <input type="date" id="fromDate">
+                    <input type="date" id="toDate">
+                    <select id="categoryFilter">
+                        <option value="all">All Categories</option>
+                        <option value="Salary">Salary</option>
+                        <option value="Food">Food</option>
+                        <option value="Travel">Travel</option>
+                        <option value="Shopping">Shopping</option>
+                        <option value="Bills">Bills</option>
+                        <option value="Education">Education</option>
+                        <option value="Medical">Medical</option>
+                        <option value="Rent">Rent</option>
+                        <option value="EMI">EMI</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    <select id="paymentFilter">
+                        <option value="all">All Payment Modes</option>
+                        <option value="Cash">Cash</option>
+                        <option value="UPI">UPI</option>
+                        <option value="Card">Card</option>
+                        <option value="Net Banking">Net Banking</option>
+                    </select>
+                </div>
+
+                <h2>Transaction History</h2>
+                <ul id="list"></ul>
+
+                <button onclick="downloadAllCSV()">Download All CSV</button>
+                <button onclick="downloadAllPDF()">Download PDF with Chart</button>
+                <button onclick="clearAll()" class="danger">Clear All</button>
+            </div>
+        </section>
+
+        <section id="monthDashboard" class="section">
+            <h1>Month Wise Dashboard</h1>
+
+            <div class="panel">
+                <input type="month" id="monthFilter">
+                <button onclick="showMonthDashboard()">Generate</button>
+                <button onclick="downloadMonthCSV()">Download Month CSV</button>
+                <button onclick="downloadMonthPDF()">Download Month PDF</button>
+            </div>
+
+            <div class="cards">
+                <div class="card green">
+                    <h3>Monthly Income</h3>
+                    <h2>₹<span id="monthIncome">0</span></h2>
+                </div>
+
+                <div class="card red">
+                    <h3>Monthly Expense</h3>
+                    <h2>₹<span id="monthExpense">0</span></h2>
+                </div>
+
+                <div class="card blue">
+                    <h3>Monthly Balance</h3>
+                    <h2>₹<span id="monthBalance">0</span></h2>
+                </div>
+
+                <div class="card purple">
+                    <h3>Top Category</h3>
+                    <h2 id="monthTopCategory">None</h2>
+                </div>
+            </div>
+
+            <div class="chart-grid">
+                <div class="panel">
+                    <h2>Month Income vs Expense</h2>
+                    <canvas id="monthMainChart"></canvas>
+                </div>
+
+                <div class="panel">
+                    <h2>Month Category Expense</h2>
+                    <canvas id="monthCategoryChart"></canvas>
+                </div>
+            </div>
+
+            <div class="panel">
+                <h2>Month Transactions</h2>
+                <ul id="monthList"></ul>
+            </div>
+        </section>
+
+        <section id="yearDashboard" class="section">
+            <h1>Year Wise Dashboard</h1>
+
+            <div class="panel">
+                <input type="number" id="yearInput" placeholder="Enter year e.g. 2026">
+                <button onclick="showYearDashboard()">Generate Year Report</button>
+            </div>
+
+            <div class="cards">
+                <div class="card green">
+                    <h3>Year Income</h3>
+                    <h2>₹<span id="yearIncome">0</span></h2>
+                </div>
+
+                <div class="card red">
+                    <h3>Year Expense</h3>
+                    <h2>₹<span id="yearExpense">0</span></h2>
+                </div>
+
+                <div class="card blue">
+                    <h3>Year Balance</h3>
+                    <h2>₹<span id="yearBalance">0</span></h2>
+                </div>
+
+                <div class="card purple">
+                    <h3>Highest Month</h3>
+                    <h2 id="highestMonth">None</h2>
+                </div>
+            </div>
+
+            <div class="panel">
+                <h2>Year Monthly Trend</h2>
+                <canvas id="yearChart"></canvas>
+            </div>
+        </section>
+
+        <section id="aiSection" class="section">
+            <h1>AI Expense Prediction & Recommendation</h1>
+
+            <div class="cards">
+                <div class="card red">
+                    <h3>Predicted Next Month Expense</h3>
+                    <h2>₹<span id="predictedExpense">0</span></h2>
+                </div>
+
+                <div class="card green">
+                    <h3>Recommended Savings</h3>
+                    <h2>₹<span id="recommendedSaving">0</span></h2>
+                </div>
+
+                <div class="card blue">
+                    <h3>Risk Level</h3>
+                    <h2 id="riskLevel">Low</h2>
+                </div>
+
+                <div class="card purple">
+                    <h3>Action</h3>
+                    <h2 id="aiAction">None</h2>
+                </div>
+            </div>
+
+            <div class="panel">
+                <button onclick="runAIPrediction()">Run AI Prediction</button>
+                <h2>Smart Suggestions</h2>
+                <ul id="suggestionList"></ul>
+            </div>
+
+            <div class="panel">
+                <h2>Expense Forecast Graph</h2>
+                <canvas id="forecastChart"></canvas>
+            </div>
+        </section>
+
+        <section id="adminPanel" class="section">
+            <h1>Admin Panel</h1>
+
+            <div class="cards">
+                <div class="card blue">
+                    <h3>Total Users</h3>
+                    <h2 id="adminUsers">0</h2>
+                </div>
+
+                <div class="card green">
+                    <h3>All Income</h3>
+                    <h2>₹<span id="adminIncome">0</span></h2>
+                </div>
+
+                <div class="card red">
+                    <h3>All Expense</h3>
+                    <h2>₹<span id="adminExpense">0</span></h2>
+                </div>
+
+                <div class="card purple">
+                    <h3>Total Records</h3>
+                    <h2 id="adminRecords">0</h2>
+                </div>
+            </div>
+
+            <div class="panel">
+                <h2>User-wise Report</h2>
+                <ul id="adminList"></ul>
+            </div>
+        </section>
+
+        <section id="settings" class="section">
+            <h1>Settings</h1>
+
+            <div class="settings-grid">
+                <div class="panel">
+                    <h2>Budget & Savings</h2>
+
+                    <input type="number" id="budget" placeholder="Monthly Budget">
+                    <button onclick="setBudget()">Set Budget</button>
+                    <p>Budget: ₹<span id="budgetAmount">0</span></p>
+
+                    <input type="number" id="savingGoal" placeholder="Savings Goal">
+                    <button onclick="setSavingGoal()">Set Goal</button>
+
+                    <div class="progress-box">
+                        <div id="progressBar"></div>
+                    </div>
+                    <p id="savingText">Savings progress: 0%</p>
+                </div>
+
+                <div class="panel">
+                    <h2>Category Limit</h2>
+
+                    <select id="limitCategory">
+                        <option value="">Category</option>
+                        <option value="Food">Food</option>
+                        <option value="Travel">Travel</option>
+                        <option value="Shopping">Shopping</option>
+                        <option value="Bills">Bills</option>
+                        <option value="Education">Education</option>
+                        <option value="Medical">Medical</option>
+                    </select>
+
+                    <input type="number" id="limitAmount" placeholder="Limit Amount">
+                    <button onclick="setCategoryLimit()">Set Limit</button>
+                    <p id="limitText">No limit set</p>
+                </div>
+
+                <div class="panel">
+                    <h2>Backup & Restore</h2>
+
+                    <button onclick="backupData()">Backup JSON</button>
+                    <input type="file" id="restoreFile" accept=".json">
+                    <button onclick="restoreData()">Restore JSON</button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
