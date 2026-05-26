@@ -1277,3 +1277,114 @@ function initializeApp() {
 
     updateCharts();
 }
+function startVoiceInput() {
+    if (!("webkitSpeechRecognition" in window)) {
+        notify("Voice input Chrome browser la mattum support aagum", "error");
+        return;
+    }
+
+    const recognition = new webkitSpeechRecognition();
+
+    recognition.lang = "en-IN";
+    recognition.continuous = true;
+    recognition.interimResults = false;
+
+    let finalText = "";
+
+    recognition.start();
+
+    notify("🎤 Listening started... 10 seconds pesunga", "success");
+
+    setTimeout(() => {
+        recognition.stop();
+        notify("⏱️ 10 seconds completed. Voice stopped.", "warning");
+    }, 10000);
+
+    recognition.onresult = function(event) {
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+            finalText += event.results[i][0].transcript.toLowerCase() + " ";
+        }
+    };
+
+    recognition.onend = function() {
+        finalText = finalText.trim();
+
+        if (finalText === "") {
+            notify("Voice detect aagala. Again try pannunga.", "error");
+            return;
+        }
+
+        fillVoiceData(finalText);
+    };
+
+    recognition.onerror = function(event) {
+        notify("Voice error: " + event.error, "error");
+    };
+}
+
+function fillVoiceData(voiceText) {
+    notify("Voice captured: " + voiceText, "success");
+
+    let amountNumber = voiceText.match(/\d+/);
+
+    if (!amountNumber) {
+        notify("Amount detect aagala. Example: Food expense 500", "error");
+        return;
+    }
+
+    let detectedAmount = Number(amountNumber[0]);
+
+    let isIncome =
+        voiceText.includes("income") ||
+        voiceText.includes("salary") ||
+        voiceText.includes("earned") ||
+        voiceText.includes("received") ||
+        voiceText.includes("credit");
+
+    if (isIncome) {
+        amount.value = detectedAmount;
+    } else {
+        amount.value = -detectedAmount;
+    }
+
+    if (voiceText.includes("salary") || voiceText.includes("income")) {
+        category.value = "Salary";
+    } else if (voiceText.includes("food") || voiceText.includes("hotel") || voiceText.includes("restaurant")) {
+        category.value = "Food";
+    } else if (voiceText.includes("travel") || voiceText.includes("bus") || voiceText.includes("train") || voiceText.includes("petrol")) {
+        category.value = "Travel";
+    } else if (voiceText.includes("shopping") || voiceText.includes("dress") || voiceText.includes("cloth")) {
+        category.value = "Shopping";
+    } else if (voiceText.includes("bill") || voiceText.includes("electricity") || voiceText.includes("recharge")) {
+        category.value = "Bills";
+    } else if (voiceText.includes("education") || voiceText.includes("college") || voiceText.includes("fees")) {
+        category.value = "Education";
+    } else if (voiceText.includes("medical") || voiceText.includes("hospital") || voiceText.includes("medicine")) {
+        category.value = "Medical";
+    } else if (voiceText.includes("rent") || voiceText.includes("room")) {
+        category.value = "Rent";
+    } else if (voiceText.includes("emi") || voiceText.includes("loan")) {
+        category.value = "EMI";
+    } else {
+        category.value = "Other";
+    }
+
+    if (voiceText.includes("cash")) {
+        paymentMode.value = "Cash";
+    } else if (voiceText.includes("upi") || voiceText.includes("gpay") || voiceText.includes("phonepe") || voiceText.includes("paytm")) {
+        paymentMode.value = "UPI";
+    } else if (voiceText.includes("card") || voiceText.includes("debit card") || voiceText.includes("credit card")) {
+        paymentMode.value = "Card";
+    } else if (voiceText.includes("net banking") || voiceText.includes("bank")) {
+        paymentMode.value = "Net Banking";
+    } else {
+        paymentMode.value = "Cash";
+    }
+
+    let words = voiceText.split(" ");
+    text.value = words[0];
+
+    date.valueAsDate = new Date();
+
+    notify("✅ Voice data filled. Add Transaction click pannunga.", "success");
+}
